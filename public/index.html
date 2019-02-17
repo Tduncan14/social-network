@@ -1,0 +1,59 @@
+<!DOCTYPE>
+<html>
+    <head>
+        <title>Whats Up ! Know what other's are up to in Realtime !</title>
+        <link rel="stylesheet" href="https://unpkg.com/purecss@0.6.2/build/pure-min.css" integrity="sha384-UQiGfs9ICog+LwheBSRCt1o5cbyKIHbwjWscjemyBMT9YCUMZffs6UqUTd0hObXD" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:200">
+        <link rel="stylesheet" href="./assets/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <img src="./assets/logo.png"  height="100px" width="100px"/>
+            </div>
+            <div id="logout" class="logout">
+               <a href="/logout">Logout</a>
+            </div>
+        </header>
+        <section class="subheader">
+            <img class="whatsup-logo" src="./assets/whatsup.png" height="100px" width="100px" />
+            <h2>Chat !</h2>
+        </section>
+        <section>
+           <div id="loader" class="loader">
+           </div>
+           <script id="member-template" type="text/x-template">
+            </script>
+           <div id="me" class="me">
+           </div>
+           <div id="membersList" class="members-list">
+           </div>
+           <div id="signup-form" class="tab-content">
+                <div class="header">
+                    <div><img src="./assets/comments.png" height="100px" width="100px"></div>
+                    <div class="text">First Time Sign Up !</div>
+                </div>
+                <form class="pure-form" id="user-form">
+                    <div class="signup-form">
+                        <div class="left-side">
+                            <div class="row">
+                                <input type="text" required placeholder="enter a username or displayname" id="display_name">
+                            </div>
+                            <div class="row">
+                                <textarea placeholder="enter initial status text" required id="initial_status" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="right-side">
+                            <button 
+                                type="submit" 
+                                class="button-secondary pure-button">Signup/Login</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+        <script src="https://js.pusher.com/4.0/pusher.min.js"></script>
+        <script type="text/javascript" src="../server.js"></script>
+    </body>
+</html>
