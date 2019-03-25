@@ -2,14 +2,17 @@ const Post = require('../models/post');
 
 
 exports.getPosts =(req,res,)=>{
+  
+    const posts = Post.find().select("_id title body")
+    .then((posts) =>{
+        res.json({posts:posts})
+    })
+    .catch( err =>console.log(err)
+    )
 
-    res.json({
-        posts:[{ treek:"you are awesome" }, { keepmovingforward:"Keep moving forward"
-            }
-        ]
-    });
 };
 
+// creating and saving the post
 exports.createPost =(req,res) =>{
     const post = new Post(req.body);
    // console.log("Creating Post",req.body);

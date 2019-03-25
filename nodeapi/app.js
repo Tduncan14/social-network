@@ -17,14 +17,15 @@ mongoose.connection.on('error', err =>{
 console.log(`DB connection error:${err.message}`)
 });
 //bring in routes
-
 const postRoutes = require('./routes/post');
+const authRoutes = require('./routes/auth');
 
 // Using the  middleware
 app.use(morgan('dev'));
 app.use(bodyparser.json());
 app.use(expressValidator());
 app.use('/',postRoutes);
+app.use('/',authRoutes);
 
 
 const port = process.env.PORT || 8080;
