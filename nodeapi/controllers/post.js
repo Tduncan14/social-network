@@ -21,11 +21,16 @@ exports.createPost =(req,res,next) =>{
          res.status(400).json({error:"Image could not be uploaded"})
      }
       post = new Post(fields)
+      
+      req.profile.hashed_password = undefined;
+      req.profile.salt = undefined;
+
       post.postedBy = req.profile
       if(files.photo){
           post.photo.data = fs.readFileSync(files.photo.path);
           post.photo.contentType =files.photo.type
       }
+
       post.save((err,result) =>{
           if(err){
               res.status(400).json({error:err})
