@@ -1,0 +1,102 @@
+const express = require('express);
+const app = express();
+
+
+const morgan = require('morgan');
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const expressValidator = require(express-validator);
+
+const bodyParser = require('body-parser');
+constParser = require('cookie-parser);
+
+dotenv.config()
+
+mongoose.connect(process.env.MONGO_URI,{useNewUrlParser:true})
+.then(() =>{
+    console.log("db successful connection)
+})
+
+mongoose.connection.on('error', err =>{
+    console.log(`DB connection error:${err.message}`)
+});
+
+// Using the middleware
+
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(expressValidator());
+
+// these are the routes
+
+app.use('/', postRoutes);
+app.use('/', authRoutes);
+app.use('/', userRoutes);
+
+
+// catches any errors
+
+app.use(function(err,req,res,next){
+    if(err.name === 'UnauthorizedError'){
+        res.status(401).json({
+            error:"Unauthorized!"
+        })
+    }
+})
+
+const port = process.env.PORT || 8080;
+
+app.listen(port,(req,res,next) =>{
+    console.log(`listen on port ${port}`);
+})
+
+// building routes from different folders
+
+const express = require('express');
+const{userById, allUsers, getUser, updateUser, deleteUser};
+const{requireSignin} = require("../controllers/auth");
+
+router.get("/users",allUsers);
+router.get("/user/:userId",requireSignin,getUser);
+router.put("/user/:userId",requireSignin,updateUser);
+router.delete("/user/:userId",requireSignin,deleteUser);
+
+// any route containing:userId as the param the app will excute that  first response that match
+
+router.param("userId",userById);
+
+
+module.exports = router;
+
+
+/// the auth route
+const express = require('express');
+
+const{signup,signin,signout} = require("../controller/route);
+const {userById} = require("../controllers/user")
+const {userSignupValidator} =require("../validator")
+
+
+
+const router = express.Router();
+
+// any route containing: userId, our will find the first respone that matches with this component
+
+
+router.param("userId",userById);
+
+
+module.exports = router;
+
+
+
+
+
+// post router
+
+// router.get("/",getPosts);
+router.post("/post",requireSignin,createPostValidation)
+
+
+

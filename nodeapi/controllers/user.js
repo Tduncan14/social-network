@@ -67,8 +67,8 @@ exports.updateUser = (req,res,next) =>{
        error:"You are not authorized to perform this action"
      })
    }
-    user.hashed_password = undefined;
-    user.salt = undefined;
+     user.hashed_password = undefined;
+     user.salt = undefined;
     res.json({user})
   })
 };
@@ -86,9 +86,9 @@ exports.deleteUser = (req,res,next) =>{
       })
 
     }
-    user.hashed_password = undefined;
-    user.salt = undefined;
+    // user.hashed_password = undefined;
+    // user.salt = undefined;
 
-    res.json({user})
+    res.json({message:"User is successfully deleted"})
   })
 }
