@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const expressValidator = require('express-validator');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-
+const fs = require('fs');
 
 dotenv.config()
 
@@ -22,6 +22,19 @@ console.log(`DB connection error:${err.message}`)
 const postRoutes = require('./routes/post');
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
+
+//apiDocs
+app.get("/",(req,res) =>{
+  fs.readFile('docs/apiDocs.json', (err,data) =>{
+      if(err){
+          res.status(400).json({
+              err:err
+          })
+      }
+       const docs = JSON.parse(data)
+       res.json(docs)
+  });
+})
 
 // Using the  middleware
 app.use(morgan('dev'));

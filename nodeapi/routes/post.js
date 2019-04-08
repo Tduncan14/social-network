@@ -7,7 +7,7 @@ const express = require('express');
 const router = express.Router();
 
 
-router.get("/",getPosts);
+router.get("/posts",getPosts);
 router.get("/posts/by/:userId",postByUser);
 router.post("/post/new/:userId",requireSignin,createPost,createPostValidator);
 
