@@ -1,6 +1,5 @@
 import React,{Component} from 'react';
-
-
+import {signup} from '../auth/index';
 class Signup extends Component {
 
     constructor(props){
@@ -39,7 +38,7 @@ class Signup extends Component {
       // Using fetch to make a post call to backend.This sending data to create a new user
     // then you define a method with an object// easy to configure
      
-     this.signup(user)
+     signup(user)
      .then(data =>{
        if(data.error)
        this.setState({error:data.error})
@@ -55,20 +54,6 @@ class Signup extends Component {
      })
     }
 
-    signup =(user) =>{
-    return fetch("http://localhost:8080/signup",{
-        method:"POST",
-        headers:{
-           Accept:"application/json",
-          "Content-Type":"application/json"
-        },
-        body: JSON.stringify(user)
-    })
-      .then(response =>{
-          return response.json()
-      })
-   
-    }
 
     signupForm =(name,email,password)=>(
       
