@@ -3,9 +3,11 @@ import {Route, Switch} from 'react-router-dom';
 import Home from './core/Home';
 import SignUp from './user/Signup';
 import Signin from './user/Signin';
+import Menu from './core/Menu';
 
 const MainRouter = () =>(
     <div>
+    <Menu />
     <Switch>
     <Route exact path="/signin" component={Signin} />
     <Route exact path= "/signup" component={SignUp}/>

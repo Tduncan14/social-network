@@ -12,7 +12,8 @@ class Signin extends Component {
           email:"",
           password:"",
           error:"",
-          redirectToReferer:false
+          redirectToReferer:false,
+          loading:false
       
 
       }
@@ -36,7 +37,10 @@ class Signin extends Component {
     }
 
  clickSubmit =(event) =>{
-     event.preventDefault()
+     event.preventDefault();
+     //
+     this.setState({loading:true});
+
      const{email,password} = this.state; 
     
      const user = {
@@ -48,7 +52,7 @@ class Signin extends Component {
      // the data contains the json webtoken if there is no error
      .then(data =>{
          if(data.error){
-         this.setState({error:data.error})
+         this.setState({error:data.error, loading:false})
          }
 
          else{
@@ -98,7 +102,7 @@ class Signin extends Component {
     
 
 
-     const {email,password,error, redirectToReferer} = this.state;
+     const {email,password,error, redirectToReferer,loading} = this.state;
 
      if(redirectToReferer){
          return <Redirect to="/"/>
@@ -116,6 +120,7 @@ class Signin extends Component {
           
              {error}
           </div>
+          {loading ? <div className='jumbotron text-center'> Loading... </div> :""}
      {this.signinForm(email,password)}
         </div>
      )
