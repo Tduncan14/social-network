@@ -40,7 +40,9 @@ class Profile extends Component{
 
 
 render(){ 
-      const {redirectToSignin} = this.state.redirectToSignin;
+
+
+      const {redirectToSignin,user} = this.state;
     
        if(redirectToSignin){
          return <Redirect to="/signin" />
@@ -53,13 +55,13 @@ render(){
         < h2 className="mt-5 mb-5"> Profile </h2> 
              <p>Hello {isAuthenticated().user.name}</p>
              <p>Email {isAuthenticated().user.email}</p>
-             <p>Date {`Joined ${new Date(this.state.user.created).toDateString()}`}</p>
+             <p>Date {`Joined ${new Date(user.created).toDateString()}`}</p>
         </div>
            <div className="col-md-6">
             {isAuthenticated().user && isAuthenticated().user._id == this.state.user._id &&(
               <div className="d-inline-block mt-5">
                   <Link className="btn btn-raised btn-success mr-5"
-                   to={`/user/edit/${this.state.user._id}`}>
+                   to={`/user/edit/${user._id}`}>
                     Edit Profile
                   </Link>
                   

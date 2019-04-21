@@ -1,0 +1,5 @@
+/** whats nexts
+
+show all the users
+make them clickable to see there profile page
+if they are logged in the can update or dlete their account in their profileelse they can just view other profile */
