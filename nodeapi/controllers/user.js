@@ -42,7 +42,7 @@ User.find((err,users) =>{
         error:err
        })
    }
-     res.json({users:users})
+     res.json(users)
    }).select("name email updated created")
 }
 
