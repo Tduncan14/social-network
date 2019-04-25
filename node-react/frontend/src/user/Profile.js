@@ -79,7 +79,7 @@ render(){
                    to={`/user/edit/${user._id}`}>
                     Edit Profile
                   </Link>
-                  <DeleteUser userId={user.id}/>
+                  <DeleteUser userId={user._id}/>
                 </div>
 
             )}
