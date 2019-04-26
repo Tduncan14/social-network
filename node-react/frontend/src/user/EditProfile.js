@@ -11,6 +11,7 @@ class EditProfile extends Component {
             id: "",
             name: "",
             email: "",
+            filename:"",
             password: "",
             redirectToProfile: false,
             error: "",
@@ -35,17 +36,48 @@ class EditProfile extends Component {
     };
 
     componentDidMount() {
+        this.userData = new FormData()
         const userId = this.props.match.params.userId;
         this.init(userId);
+
     }
 
  
+    isvalid = () =>{
+        const{name,email,password} = this.state;
+
+        if(name.length === 0){
+             this.setState({
+                 error:"name is required"
+             })
+             return false
+        }
+        // validates the email with @ symbol, use a regular expression
+        if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+            this.setState({
+                error: "A valid Email is required",
+                loading: false
+            });
+            return false;
+        }
+
+         if(password.length >= 1 && password.length <= 5){
+             this.setState({
+                 error:"password should longer than 5 letters"
+             })
+              return false
+         }
+         return true
+    }
 
     handleChange = name => event => {
-            
-              this.setState({
-                  [name]:event.target.value
-              })
+        this.setState({ error: "" });
+        const value =
+            name === "photo" ? event.target.files[0] : event.target.value;
+
+        const fileSize = name === "photo" ? event.target.files[0].size : 0;
+        this.userData.set(name, value);
+        this.setState({ [name]: value, fileSize });
 
               console.log('in the handleChange method',this.state)
   
@@ -53,9 +85,10 @@ class EditProfile extends Component {
 
     clickSubmit = event => {
         event.preventDefault();
-        this.setState({ loading: true });
+        
 
-        const{name,email,password} = this.state
+        if(this.isvalid()){
+            const{name,email,password} = this.state
 
         const user = {
             name,
@@ -67,7 +100,7 @@ class EditProfile extends Component {
             const userId = this.props.match.params.userId;
             const token = isAuthenticated().token;
 
-            update(userId, token,user).then(data => {
+            update(userId, token,this.userData).then(data => {
                 if (data.error) {
                     this.setState({ error: data.error });
                 }
@@ -79,13 +112,27 @@ class EditProfile extends Component {
                 }
             });
 
-            console.log(this.state
-                )
+
+        }
+
+        this.setState({ loading: true });
+
+        
         
     };
 
-    updateForm = (name, email, password,) => (
+    updateForm = (name, email, password,filename) => (
         <form>
+
+<div className="form-group">
+                <label className="text-muted">Profile Photo</label>
+                <input
+                    onChange={this.handleChange("photo")}
+                    type="file"
+                    accept="image/*"
+                    className="form-control"
+                />
+            </div>
        
             <div className="form-group">
                 <label className="text-muted">Name</label>
@@ -145,6 +192,13 @@ class EditProfile extends Component {
         return (
             <div className="container">
                 <h2 className="mt-5 mb-5">Edit Profile</h2>
+
+                <div className="alert alert-danger"
+                style={{display:error ?"":"none"}}>
+
+                {error}
+                
+                </div>
             
              {this.updateForm(name,email,password)}
             </div>
