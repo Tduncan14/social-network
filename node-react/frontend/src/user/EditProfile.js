@@ -11,10 +11,11 @@ class EditProfile extends Component {
             id: "",
             name: "",
             email: "",
-            filename:"",
+            fileSize:"",
             password: "",
             redirectToProfile: false,
             error: "",
+            loading:false
         };
     }
 
@@ -44,7 +45,12 @@ class EditProfile extends Component {
 
  
     isvalid = () =>{
-        const{name,email,password} = this.state;
+        const{name,email,password,fileSize} = this.state;
+
+        if(fileSize > 1000000){
+            this.setState({error:"File size should be less than 100kb"})
+            return false;
+        }
 
         if(name.length === 0){
              this.setState({
@@ -71,32 +77,18 @@ class EditProfile extends Component {
     }
 
     handleChange = name => event => {
-        this.setState({ error: "" });
-        const value =
-            name === "photo" ? event.target.files[0] : event.target.value;
 
-        const fileSize = name === "photo" ? event.target.files[0].size : 0;
-        this.userData.set(name, value);
-        this.setState({ [name]: value, fileSize });
-
-              console.log('in the handleChange method',this.state)
-  
+    const value = name === 'photo'? event.target.files[0] : event.target.value;
+    this.userData.set(name,value);
+    this.setState({[name]: value})
     };
 
     clickSubmit = event => {
         event.preventDefault();
-        
+        this.setState({loading:true})
+
 
         if(this.isvalid()){
-            const{name,email,password} = this.state
-
-        const user = {
-            name,
-            email,
-            password:password || undefined
-        }
-
-    
             const userId = this.props.match.params.userId;
             const token = isAuthenticated().token;
 
@@ -121,7 +113,7 @@ class EditProfile extends Component {
         
     };
 
-    updateForm = (name, email, password,filename) => (
+    updateForm = (name, email, password) => (
         <form>
 
 <div className="form-group">
@@ -181,7 +173,7 @@ class EditProfile extends Component {
             password,
             redirectToProfile,
             error,
-            
+            loading
         } = this.state;
 
         if (redirectToProfile) {
@@ -197,8 +189,14 @@ class EditProfile extends Component {
                 style={{display:error ?"":"none"}}>
 
                 {error}
-                
                 </div>
+                {loading ? (
+                    <div className="Jumbotron text-center">
+                     <h2>loading...</h2>
+                     </div>
+                ) : (
+                    ""
+                )}
             
              {this.updateForm(name,email,password)}
             </div>
