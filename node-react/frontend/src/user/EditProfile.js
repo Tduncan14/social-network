@@ -2,7 +2,14 @@ import React, { Component } from "react";
 import { isAuthenticated } from "../auth";
 import { read, update } from "./apiUser";
 import { Redirect } from "react-router-dom";
+import DefaultImage from "../images/avatar.png";
 
+
+const imageSize ={
+    width:'200px',
+    height:'200px',
+    borderRadius:'10px'
+}
 
 class EditProfile extends Component {
     constructor(props) {
@@ -11,7 +18,7 @@ class EditProfile extends Component {
             id: "",
             name: "",
             email: "",
-            fileSize:"",
+            fileSize:0,
             password: "",
             redirectToProfile: false,
             error: "",
@@ -47,8 +54,8 @@ class EditProfile extends Component {
     isvalid = () =>{
         const{name,email,password,fileSize} = this.state;
 
-        if(fileSize > 1000000){
-            this.setState({error:"File size should be less than 100kb"})
+        if(fileSize > 200000){
+            this.setState({error:"File size should be less than 1mb/100kb"});
             return false;
         }
 
@@ -78,9 +85,16 @@ class EditProfile extends Component {
 
     handleChange = name => event => {
 
+    this.setState({
+        error:""
+    })
+
     const value = name === 'photo'? event.target.files[0] : event.target.value;
+    
+    const fileSize = name === "photo" ? event.target.files[0].size:0;
+
     this.userData.set(name,value);
-    this.setState({[name]: value})
+    this.setState({[name]: value, fileSize:fileSize })
     };
 
     clickSubmit = event => {
@@ -179,7 +193,8 @@ class EditProfile extends Component {
         if (redirectToProfile) {
             return <Redirect to={`/user/${id}`} />;
         }
-
+    
+        const photoUrl = id ? `${process.env.REACT_APP_API_URL}/user/photo/${id}`: DefaultImage;
     
         return (
             <div className="container">
@@ -197,7 +212,7 @@ class EditProfile extends Component {
                 ) : (
                     ""
                 )}
-            
+             <img src={photoUrl} alt={name}  style={imageSize}/>
              {this.updateForm(name,email,password)}
             </div>
         );
