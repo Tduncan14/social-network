@@ -53,14 +53,21 @@ render(){
     
        if(redirectToSignin){
          return <Redirect to="/signin" />
+
        }
+
+       const photoUrl = user._id ? `${process.env.REACT_APP_API_URL}/user/photo/${user._id}?${new Date().getTime()}`: defaultProfile;
       return (
  
       <div className ="container">
                < h2 className="mt-5 mb-5"> Profile </h2> 
         <div className="row">
         <div className="col-md-6">
-        <img className="card-img-top" src={defaultProfile} alt={user.name} style={{width:"100%;",height:"45vh;"}}/>
+          <img style={{height:'400px',width:'auto'}} 
+            className="img-thumbnail"
+            src={photoUrl} 
+            alt={this.state.user.name}
+            onError={i =>(i.target.src=`${defaultProfile}`)}/>
        <div className="card-body">
          <h5 className="card-title">{user.name}</h5>
          <p className="card-text">{user.email}.</p>
@@ -84,6 +91,11 @@ render(){
 
             )}
            </div>
+           </div>
+           <div className="row">
+              <div className="col md-12">
+                <p className="lead">{user.about}</p>
+              </div>
            </div>
         </div>
     );

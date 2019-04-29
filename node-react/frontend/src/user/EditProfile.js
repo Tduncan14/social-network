@@ -6,7 +6,7 @@ import DefaultImage from "../images/avatar.png";
 
 
 const imageSize ={
-    width:'200px',
+    width:'auto',
     height:'200px',
     borderRadius:'10px'
 }
@@ -22,7 +22,8 @@ class EditProfile extends Component {
             password: "",
             redirectToProfile: false,
             error: "",
-            loading:false
+            loading:false,
+            about:""
         };
     }
 
@@ -37,6 +38,7 @@ class EditProfile extends Component {
                     name: data.name,
                     email: data.email,
                     error: "",
+                    about:""
                   
                 });
             }
@@ -127,7 +129,7 @@ class EditProfile extends Component {
         
     };
 
-    updateForm = (name, email, password) => (
+    updateForm = (name, email, password,about) => (
         <form>
 
 <div className="form-group">
@@ -170,6 +172,16 @@ class EditProfile extends Component {
                     value={password}
                 />
             </div>
+
+            <div className="form-group">
+                <label className="text-muted">About</label>
+                <textarea
+                    onChange={this.handleChange("about")}
+                    type="text"
+                    className="form-control"
+                    value={about}
+                />
+            </div>
             <button
                 onClick={this.clickSubmit}
                 className="btn btn-raised btn-primary"
@@ -187,14 +199,15 @@ class EditProfile extends Component {
             password,
             redirectToProfile,
             error,
-            loading
+            loading,
+            about
         } = this.state;
 
         if (redirectToProfile) {
             return <Redirect to={`/user/${id}`} />;
         }
     
-        const photoUrl = id ? `${process.env.REACT_APP_API_URL}/user/photo/${id}`: DefaultImage;
+        const photoUrl = id ? `${process.env.REACT_APP_API_URL}/user/photo/${id}?${new Date().getTime()}`: DefaultImage;
     
         return (
             <div className="container">
@@ -212,8 +225,9 @@ class EditProfile extends Component {
                 ) : (
                     ""
                 )}
-             <img src={photoUrl} alt={name}  style={imageSize}/>
-             {this.updateForm(name,email,password)}
+             <img className="img-thumbnail"src={photoUrl} alt={name}  style={imageSize}
+              onError={i =>(i.target.src=`${DefaultImage}`)}/>
+             {this.updateForm(name,email,password,about)}
             </div>
         );
     }
