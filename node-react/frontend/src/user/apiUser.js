@@ -53,3 +53,19 @@ export const update = (userId, token, user) => {
       })
       .catch(err => console.log(err));
 };
+
+// This function updates the user throught the jwt.
+// it grabs and get the jwt token then reset it when a you  update the information
+
+export const updateUser = (user,next) =>{
+
+  if(typeof window !== 'undefined'){
+    if(localStorage.getItem('jwt')){
+      let auth = JSON.parse(localStorage.getItem('jwt'));
+      auth.user =user;
+      localStorage.setItem('jwt',JSON.stringify(auth));
+      next();
+      
+    }
+  }
+}
