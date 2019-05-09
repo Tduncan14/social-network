@@ -9,7 +9,8 @@ class Users extends Component {
 
         this.state = {
             users:[],
-            isLoading:false
+            isLoading:false,
+            error:''
         }
 
     }
@@ -17,7 +18,7 @@ class Users extends Component {
     componentDidMount(){
         list().then(data =>{
          if(data.error){
-             console.log(data.error)
+             this.setState({error:data.error})
          }
          else{
              this.setState({

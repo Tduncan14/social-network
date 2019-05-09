@@ -57,13 +57,15 @@ class EditProfile extends Component {
         const{name,email,password,fileSize} = this.state;
 
         if(fileSize > 200000){
-            this.setState({error:"File size should be less than 1mb/100kb"});
+            this.setState({error:"File size should be less than 1mb/100kb"
+           ,loading:false});
             return false;
         }
 
         if(name.length === 0){
              this.setState({
-                 error:"name is required"
+                 error:"name is required",
+                 loading:false
              })
              return false
         }
@@ -71,14 +73,15 @@ class EditProfile extends Component {
         if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
             this.setState({
                 error: "A valid Email is required",
-                loading: false
+                loading:false
             });
             return false;
         }
 
          if(password.length >= 1 && password.length <= 5){
              this.setState({
-                 error:"password should longer than 5 letters"
+                 error:"password should longer than 5 letters",
+                 loading:false
              })
               return false
          }
@@ -95,6 +98,7 @@ class EditProfile extends Component {
     
     const fileSize = name === "photo" ? event.target.files[0].size:0;
 
+    // add data to the empty the object
     this.userData.set(name,value);
     this.setState({[name]: value, fileSize:fileSize })
     };
@@ -115,18 +119,16 @@ class EditProfile extends Component {
                 else {
                     updateUser(data,()=>{                
                         this.setState({
+                            loading: true,
                             redirectToProfile: true
+                         
                         });
                     })
                 }
             });
 
 
-        }
-
-        this.setState({ loading: true });
-
-        
+        }  
         
     };
 

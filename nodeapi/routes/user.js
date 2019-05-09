@@ -1,9 +1,26 @@
 const express = require("express");
-const{userById,allUsers,getUser,updateUser,deleteUser,userPhoto} = require("../controllers/user");
+const{userById,
+    allUsers,
+    getUser,
+    updateUser,
+    deleteUser,
+    userPhoto,
+    addFollowing,
+    addFollower,
+    removeFollower,
+    removeFollowing
+  } = require("../controllers/user");
 const {requireSignin} = require("../controllers/auth");
 
 
 const router = express.Router();
+
+// updates the users
+router.put('/user/follow',requireSignin, addFollowing,addFollower);
+
+// the unfollow users route
+
+router.put('/user/unfollow',requireSignin,removeFollowing,removeFollower);
 
 
 router.get("/users",allUsers);
